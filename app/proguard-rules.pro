@@ -1,0 +1,5 @@
+-keep class com.peekr.** { *; }
+-keep class org.drinkless.tdlib.** { *; }
+-dontwarn org.drinkless.**
+-keep class com.google.api.** { *; }
+-dontwarn com.google.api.**

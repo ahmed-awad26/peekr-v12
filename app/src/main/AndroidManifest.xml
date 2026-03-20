@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:name=".PeekrApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:label="Peekr"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Peekr"
+        android:usesCleartextTraffic="true">
+
+        <!-- SplashScreen -->
+        <meta-data
+            android:name="android.provider.EXTRA_RESTRICTIONS_PROVIDER"
+            android:value=".PeekrApp" />
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Peekr.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep link for Telegram Bot Pairing -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="peekr" android:host="tg_auth" />
+            </intent-filter>
+        </activity>
+
+        <!-- Widget Config Activity -->
+        <activity
+            android:name=".widget.custom.CustomWidgetConfigActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!-- WorkManager Hilt Integration -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+        <!-- Widgets Receivers -->
+        <receiver
+            android:name=".widget.combined.CombinedWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - كل المنصات">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_combined_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.TelegramWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - تليجرام">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_platform_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.YoutubeWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - يوتيوب">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_platform_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WhatsappWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - واتساب">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_platform_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.FacebookWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - فيسبوك">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_platform_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.RssWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - RSS">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_platform_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.custom.CustomSourceWidgetReceiver"
+            android:exported="true"
+            android:label="Peekr - مخصص">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_custom_info" />
+        </receiver>
+
+    </application>
+
+</manifest>
